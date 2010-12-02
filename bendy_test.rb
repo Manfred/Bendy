@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'plastic'
+require 'bendy'
 
 class Test::Unit::TestCase
   def self.test(description, &block)
@@ -7,8 +7,8 @@ class Test::Unit::TestCase
   end
 end
 
-class PlasticShapeTest < Test::Unit::TestCase
-  include Plastic::Shape
+class BendyShapeTest < Test::Unit::TestCase
+  include Bendy::Shape
   
   def setup
     @object = shape(
@@ -34,8 +34,8 @@ class Cow
   end
 end
 
-class PlasticShapeSubclassTest < Test::Unit::TestCase
-  include Plastic::Shape
+class BendyShapeSubclassTest < Test::Unit::TestCase
+  include Bendy::Shape
   
   def setup
     @object = shape(Cow,
@@ -55,8 +55,8 @@ class PlasticShapeSubclassTest < Test::Unit::TestCase
   end
 end
 
-class PlasticShapeLambdaTest < Test::Unit::TestCase
-  include Plastic::Shape
+class BendyShapeLambdaTest < Test::Unit::TestCase
+  include Bendy::Shape
   
   def setup
     @object = shape(Cow,

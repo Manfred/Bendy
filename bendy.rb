@@ -1,4 +1,4 @@
-module Plastic
+module Bendy
   module Shape
     def shape(*args)
       if args[0].kind_of?(Hash)
