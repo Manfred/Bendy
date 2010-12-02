@@ -54,3 +54,24 @@ class PlasticShapeSubclassTest < Test::Unit::TestCase
     assert @object.respond_to?(:length)
   end
 end
+
+class PlasticShapeLambdaTest < Test::Unit::TestCase
+  include Plastic::Shape
+  
+  def setup
+    @object = shape(Cow,
+      :name => lambda { 'Appie' },
+      :[] => lambda { |index| index }
+    )
+  end
+  
+  test "invokes stubbed accessors" do
+    assert_equal 'Appie', @object.name
+    assert_equal 42, @object[42]
+  end
+  
+  test "responds to stubbed accessors" do
+    assert @object.respond_to?(:name)
+    assert @object.respond_to?(:[])
+  end
+end

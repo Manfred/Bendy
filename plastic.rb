@@ -8,8 +8,12 @@ module Plastic
         klass, attributes = args
       end
       attributes.each do |attribute, value|
-        klass.send(:define_method, attribute) do
-          value
+        if value.kind_of?(Proc)
+          klass.send(:define_method, attribute, &value)
+        else
+          klass.send(:define_method, attribute) do
+            value
+          end
         end
       end
       klass.new
