@@ -66,11 +66,13 @@ class BendyShapeLambdaTest < Test::Unit::TestCase
   end
   
   test "invokes stubbed accessors" do
+    assert_equal 'moo', @object.moo
     assert_equal 'Appie', @object.name
     assert_equal 42, @object[42]
   end
   
   test "responds to stubbed accessors" do
+    assert @object.respond_to?(:moo)
     assert @object.respond_to?(:name)
     assert @object.respond_to?(:[])
   end
