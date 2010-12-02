@@ -1,13 +1,18 @@
 module Plastic
   module Shape
-    def shape(attributes)
-      object = Class.new
+    def shape(*args)
+      if args[0].kind_of?(Hash)
+        klass = Class.new
+        attributes = args[0]
+      else
+        klass, attributes = args
+      end
       attributes.each do |attribute, value|
-        object.send(:define_method, attribute) do
+        klass.send(:define_method, attribute) do
           value
         end
       end
-      object.new
+      klass.new
     end
   end
 end
