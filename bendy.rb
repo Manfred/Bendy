@@ -1,20 +1,11 @@
 module Bendy
   module Shape
     def shape(*args)
-      if args[0].kind_of?(Hash)
-        klass = Class.new
-        attributes = args[0]
-      else
-        klass, attributes = args
-      end
+      klass      = args[0].kind_of?(Hash) ? Class.new : args.shift
+      attributes = args[0]
       attributes.each do |attribute, value|
-        if value.kind_of?(Proc)
-          klass.send(:define_method, attribute, &value)
-        else
-          klass.send(:define_method, attribute) do
-            value
-          end
-        end
+        proc = value.kind_of?(Proc) ? value : lambda { value }
+        klass.send(:define_method, attribute, &proc)
       end
       klass.new
     end
