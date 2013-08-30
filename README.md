@@ -2,6 +2,10 @@
 
 Bendy is a tiny mocking framework.
 
+## Install
+
+	$ curl -o lib/bendy.rb https://raw.github.com/Manfred/Bendy/master/bendy.rb
+
 ## Examples
 
 Basic mock implementation which responds to methods.
