@@ -1,3 +1,5 @@
+$:.unshift(File.expand_path('../', __FILE__))
+
 require 'test/unit'
 require 'bendy'
 
@@ -29,6 +31,12 @@ class BendyShapeTest < Test::Unit::TestCase
 end
 
 class Cow
+  attr_reader :color
+  
+  def initialize(color=nil)
+    @color = color
+  end
+  
   def moo
     'moo'
   end
@@ -75,5 +83,32 @@ class BendyShapeLambdaTest < Test::Unit::TestCase
     assert @object.respond_to?(:moo)
     assert @object.respond_to?(:name)
     assert @object.respond_to?(:[])
+  end
+end
+
+class BendyShapeSubclassWithArgsTest < Test::Unit::TestCase
+  include Bendy::Shape
+  
+  def setup
+    @object = shape(Cow,
+      'Green',
+      :name => 'Appie',
+      :length => 42
+    )
+  end
+  
+  test "passes arguments to the initializer" do
+    assert_equal 'Green', @object.color
+  end
+end
+
+
+class BendyShapeExceptionTest < Test::Unit::TestCase
+  include Bendy::Shape
+  
+  test "tries to pass regular arguments" do
+    assert_raises(ArgumentError) do
+      shape('Green')
+    end
   end
 end
