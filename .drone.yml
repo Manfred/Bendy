@@ -1,7 +1,0 @@
-image: ruby2.0.0
-script:
-  - ruby bendy_test.rb
-notify:
-  email:
-    recipients:
-      - manfred@erm.im
