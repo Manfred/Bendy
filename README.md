@@ -8,44 +8,50 @@ Bendy is a tiny mocking framework.
 
 ## Examples
 
-Basic mock implementation which responds to methods.
+Mock object that responds to a couple of methods.
 
-	henry = shape(:name => "Henry")
-	henry.name #=> "Henry"
+```ruby
+henry = shape(name: "Henry")
+henry.name #=> "Henry"
+```
 
-Mock implementation of a number of methods.
+Wrap a class definition and override a couple of methods.
 
-	class Weblog
-	  def author
-	  	"Henry"
-	  end
-	  
-	  def path
-	  	"/path/to/weblog"
-	  end
-	end
-	
-	weblog = shape(Weblog,
-	  :path => "/mnt/data/weblog",
-	  :reverse => Proc.new { |s| s.reverse }
-	)
-	weblog.path #=> "/mnt/data/weblog"
-	weblog.author #=> "Henry"
-	weblog.reverse('Jimmy') #=> 'ymmiJ"
+```ruby
+class Weblog
+  def author
+    "Henry"
+  end
 
-Finally you can also pass arguments to the initializer.
+  def path
+    "/path/to/weblog"
+  end
+end
 
-    class Weblog
-      attr_reader :path
-      
-      def initialize(path)
-        @path = path
-      end
-    end
-    
-	weblog = shape(Weblog, "/mnt/data/weblog", :author => "Henry")
-	weblog.path #=> "/mnt/data/weblog"
-	weblog.author #=> "Henry"
+weblog = shape(Weblog,
+  path: "/mnt/data/weblog",
+  reverse: Proc.new { |s| s.reverse }
+)
+weblog.path #=> "/mnt/data/weblog"
+weblog.author #=> "Henry"
+weblog.reverse('Jimmy') #=> 'ymmiJ"
+```
+
+Initialize a shape with arguments.
+
+```ruby
+class Weblog
+  attr_reader :path
+
+  def initialize(path)
+    @path = path
+  end
+end
+
+weblog = shape(Weblog, "/mnt/data/weblog", author: "Henry")
+weblog.path #=> "/mnt/data/weblog"
+weblog.author #=> "Henry"
+```
 
 ## Copying
 
