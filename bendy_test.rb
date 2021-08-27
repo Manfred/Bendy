@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift(File.expand_path(__dir__))
 
 require 'minitest/autorun'
 require 'bendy'
 
-class Minitest::Test
-  def self.test(description, &block)
-    define_method("test_ #{description}", &block)
+module Minitest
+  class Test
+    def self.test(description, &block)
+      define_method("test_ #{description}", &block)
+    end
   end
 end
 
@@ -39,6 +43,14 @@ class Cow
 
   def moo
     'moo'
+  end
+end
+
+class Sheep
+  attr_accessor :color
+
+  def initialize(color:)
+    @color = color
   end
 end
 
@@ -102,6 +114,28 @@ class BendyShapeSubclassWithArgsTest < Minitest::Test
 
   test 'passes arguments to the initializer' do
     assert_equal 'Green', @object.color
+  end
+end
+
+class BendyShapeSubclassWithKwargsTest < Minitest::Test
+  include Bendy::Shape
+
+  def setup
+    @object = shape(
+      Sheep,
+      { color: 'Yellow' },
+      name: 'Beep',
+      length: 42
+    )
+  end
+
+  test 'passes arguments to the initializer' do
+    assert_equal 'Yellow', @object.color
+  end
+
+  test 'defines methods on the shape' do
+    assert_equal 'Beep', @object.name
+    assert_equal 42, @object.length
   end
 end
 

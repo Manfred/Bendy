@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bendy
   module Inspect
     def self.prepended(base)
@@ -9,8 +11,8 @@ module Bendy
         ''
       else
         out = ' '
-        for method, value in self.class.__config
-          out << method.to_s + ':' + value.inspect + ', '
+        self.class.__config.each do |method, value|
+          out << "#{method}:#{value.inspect}, "
         end
         out[0..-3]
       end
@@ -34,7 +36,8 @@ module Bendy
         proc = value.is_a?(Proc) ? value : proc { |*_args| value }
         klass.send(:define_method, attribute, &proc)
       end
-      klass.new(*args)
+      kwargs = args[-1].is_a?(Hash) ? args.pop : {}
+      klass.new(*args, **kwargs)
     end
   end
 end
